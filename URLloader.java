@@ -15,14 +15,17 @@ public class URLloader {
         //https://docs.oracle.com/javase/tutorial/networking/urls/readingURL.html
         //the below content to read in a URL was taken from Oracle
 
-        URL oracle = new URL("file:///Users/SarahMenza/Documents/withMonsters.txt");
+        URL oracle = new URL("file:///Users/SarahMenza/Documents/Test.txt");
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(oracle.openStream()));
 
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
-            allChars = inputLine.replaceAll("[^A-Za-z]+", " ").toLowerCase();
-            words.addAll(Arrays.asList(allChars.split("\\s")));
+            //replaces anything that is not a character from a - z with a space
+            allChars = inputLine.replaceAll("[^A-Za-z]+", " ");
+            //new line??
+            allChars = allChars.toLowerCase();
+            words.addAll(Arrays.asList(allChars.trim().split("\\s+")));
         }
 
         HashMap<String,Integer> wordFrequencies =new HashMap<String,Integer>();
@@ -35,20 +38,21 @@ public class URLloader {
                 wordFrequencies.put(word, 1);
             }
         }
-
-        //testing commit
         ArrayList<Integer> occurrences = new ArrayList<>();
 
         for (String key: wordFrequencies.keySet()) {
            occurrences.add(wordFrequencies.get(key));
 
         }
+        //https://beginnersbook.com/2013/12/sort-arraylist-in-descending-order-in-java/
+        //line 49 was googled
         Collections.sort(occurrences, Collections.reverseOrder());
 
         for (int i = 0; i < 10; i++) {
             for (String key: wordFrequencies.keySet()) {
                 if (wordFrequencies.get(key) == occurrences.get(i)) {
                     System.out.println(key + ": " + occurrences.get(i));
+                    wordFrequencies.remove(key);
                     break;
                 }
             }
